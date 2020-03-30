@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Game</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+
+</head>
+
+    <h3 style="display: inline-block;"><button><h1 onclick="location.href=`/exchange?id=${param3}`">환전소</h1></button></h3>
+<h1 style="width: 30%;margin-left: 420px;display: inline-block ">로또게임</h1>
+<h3 style="margin-left: 120px;display: inline-block ;font-size: 15px;width: 15%;text-align: right">
+    <div id="mycoin"></div>
+    <div style="color: red" id="accumulated"></div>
+
+</h3>
+
+
+<h1 id="CLB" style="display: inline-block;margin-left: 390px"></h1>
+<h1 id="CL" style="display: inline-block"></h1>
+<br>
+<div id = "left" style="width: 45%;display: inline-block">
+
+    <h1 style="width: 100%" id="jk"></h1>
+    <h2 style="width: 100%" id="cr">
+        <br>
+        <br>
+    </h2>
+
+
+    <div id="change">
+        번호
+       <input type="text" id="1" style="width: 30px" onkeypress="inNumber();"/>
+        <input type="text" id="2" style="width: 30px" onkeypress="inNumber();"/>
+        <input type="text" id="3" style="width: 30px" onkeypress="inNumber();"/>
+        <input type="text" id="4" style="width: 30px" onkeypress="inNumber();"/>
+        <input type="text" id="5" style="width: 30px" onkeypress="inNumber();"/>
+        <input type="text" id="6" style="width: 30px" onkeypress="inNumber();"/>
+        <button onclick="orderMake()">생성</button>
+        <button onclick="randomMake()">랜덤생성</button>
+    </div>
+    <div id="resultRanking" style="width: 100%"></div>
+</div>
+
+<div id="right" style="width: 50%;display: inline-block">
+    <button style="font-size: 15px;display: inline-block;margin-left: 180px;width: 30%" onclick="
+    if(plain.style.visibility=='hidden'){plain.style.visibility='visible'}else {plain.style.visibility='hidden'}"> 게임설명(클릭)</button>
+    <br>
+    <div id="plain" style="visibility: visible;width: 100%;margin-left: 130px">
+        <ol >
+            <li>이 게임은 10분에 한번씩 당첨번호가 생성된다</li>
+            <li>1~20까지의 숫자중 중복되지 않는 숫자 6개를 고른다</li>
+
+            <li>자신이 선택한 숫자를 입력 후 생성하기 버튼을 누르면 결제가 진행된다</li>
+            <li>랜덤발급 버튼을 누르면 랜덤으로 번호를 생성해서 결제가 진행된다</li>
+            <li>맞춘개수에 따라 차등으로 3등까지 돈이 지급된다</li>
+            <li>(단 공동등수일 경우 돈은 나눠서 분배된다)</li>
+            <li>1등:전체대금의 70%</li>
+            <li>2등:전체대금의 20%</li>
+            <li>3등:전체대금의 10%</li>
+
+        </ol>
+    </div>
+</div>
+
+<br>
+<br>
+
+<div class="content-wrap">
+
+    <div class="content-box" style="width: 37%">
+        <div class="header2">구매내역</div>
+        <div class="content2">
+            <div id="result"></div>
+        </div>
+    </div>
+    <div class="content-box" style="width: 10%">
+        <div class="header2">맞은개수</div>
+        <div class="content2">
+            <div id="resultN" style="color: red"></div>
+        </div>
+    </div>
+
+
+    <div class="content-box" style="width: 45%;margin-left: 7%">
+        <div>
+            <div class="header2">당첨 번호 검색</div>
+            <input type="text" id="a" style="width: 30px" onkeypress="inNumber();"/>회차
+            <button onclick="searchR()">검색</button>
+            <div class="content2">
+                <div id="b"></div>
+            </div>
+
+        </div>
+        <br>
+        <div class="header2">등수 확인</div>
+        <input type="text" id="c" style="width: 30px" onkeypress="inNumber();"/>회차
+        <button onclick="checkRanking()">검색</button>
+        <!--        search함수말고 새로 만들어야함-->
+        <div class="content2">
+            <div id="d"></div>
+        </div>
+        <br>
+        <div class="header2">당첨 결과</div>
+        <div class="content2">
+            <div id="resultA"></div>
+        </div>
+        <br>
+        <div class="content-box" style="display: inline-block;width: 300px">
+            <div class="header2">당첨금 수령</div>
+            <div class="content2">
+                <div id="getmoney"></div>
+            </div>
+        </div>
+        <div class="content-box" style="display: inline-block;width: 100px">
+            <div class="content2">
+                <div id="getmoney2" style="color: blue"></div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+</body>
+<script type="text/javascript" src="game.js"></script>
+</html>

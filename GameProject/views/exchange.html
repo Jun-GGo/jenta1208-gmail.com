@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        function inNumber() {
+            if (event.keyCode < 48 || event.keyCode > 57) {
+                event.returnValue = false;
+            }
+        }
+
+        function inNumber2() {
+            if (event.keyCode < 48 || event.keyCode > 57) {
+                if (event.keyCode != 46) {
+                    alert('숫자만 입력!');
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+            return true;
+        }
+
+        function exchangeTokenTest() {
+            let inputtoken = document.getElementById('inputtoken').value;
+            console.log(inputtoken);
+            document.getElementById('resulttoken').innerHTML = inputtoken / 10000 + ' ether';
+
+        }
+
+        function exchangeEtherTest() {
+            let inputether = document.getElementById('inputEther').value;
+            console.log(inputether)
+            document.getElementById('resultether').innerHTML = inputether * 10000 + ' token';
+        }
+
+        function exchangeToken() {
+            let it = document.getElementById('inputtoken').value;
+            console.log(param3);
+            let balance = document.getElementById('mycoin').innerHTML;
+            balance = balance.replace(/[^0-9]/g, "")
+            console.log(balance);
+            if (balance >= it) {
+                $.ajax({
+                    url: "/exchangetoken",
+                    data: {
+                        it: it,
+                        id: param3
+                    },
+                    method: "GET",
+
+                })
+                alert('Success! check your address after 2~3 minutes')
+                window.location.reload();
+            } else
+                alert('Not enough token, Please try again with less token!')
+
+
+        }
+
+        function exchangeEther() {
+            console.log(1);
+            let ie = document.getElementById('inputEther').value;
+            let privateKey = document.getElementById('inputPK').value;
+            $.ajax({
+                url: "/exchangeether",
+                data: {
+                    ie: ie,
+                    id: param3,
+                    privateKey: privateKey
+                },
+                method: "GET",
+
+            })
+                .done(function (result) {
+                    if(result<ie)
+                        alert('Unsufficient funds!')
+                    else{
+                        alert('Success!, Charging takes less then 3minutes ')
+                        window.location.reload();
+                        $.ajax({
+                            url: "/exchangeether_process",
+                            data: {
+                                ie: ie,
+                                id: param3,
+                                privateKey: privateKey
+                            },
+                            method: "GET",
+
+                        })
+
+                    }
+
+                })
+
+
+        }
+
+        function S_GET(id) {
+            var a = new RegExp(id + "=([^&#=]*)");
+            return decodeURIComponent(a.exec(window.location.search)[1]);
+        }
+
+        let param3 = S_GET('id');
+
+        function getBalance() {
+            let param = S_GET('id');
+            $.ajax({
+                url: "/getBalance",
+                data: {id: param},
+                method: "GET",
+
+            })
+                .done(function (result) {
+                    console.log(result);
+                    document.getElementById('mycoin').innerHTML = '내 코인:' + result[0].money
+                })
+
+
+
+        }
+
+        getBalance();
+
+        function getAccumulated() {
+            $.ajax({
+                url: "/getAccumulated",
+                data: {},
+                method: "GET",
+
+            })
+                .done(function (result) {
+                    document.getElementById('accumulated').innerHTML = '모인 돈:' + result[0].money
+
+                })
+
+        }
+
+        getAccumulated();
+    </script>
+</head>
+<body>
+
+<h1 style="display: inline-block">환전소</h1>
+<button style="margin-left: 900px"><h1 onclick="location.href=`/game?id=${param3}`">GAME</h1>
+</button>
+<h3 style="display: inline-block">시세:1000Token === 0.1 Ether</h3>
+<h3 style="margin-left: 650px;display: inline-block ;font-size: 15px;width: 15%;text-align: right">
+    <div id="mycoin"></div>
+    <div style="color: red" id="accumulated"></div>
+
+</h3>
+<br>
+<h3>*전송되는데 2~3분까지 소요될 수 있습니다!</h3>
+<div>
+    <div class="header44">Token -> Ether</div>
+    <div class="content44">
+        <table>
+            <tr>
+                <td>Token :</td>
+                <td><input type="text" onkeypress="inNumber()" id="inputtoken" name="token"> <input type="button"
+                                                                                                    value="환산액보기"
+                                                                                                    onclick="exchangeTokenTest()">
+                    👉🏿 <span id="resulttoken"></span></td>
+            </tr>
+            <tr>
+                <td><input type="submit" value="환전하기" onclick="exchangeToken()"></td>
+            </tr>
+        </table>
+    </div>
+</div>
+<br>
+<div>
+    <div class="header44">Ether -> Token</div>
+    <div class="content44">
+        <table>
+            <tr>
+                <td>Ether :</td>
+                <td><input type="text" onkeypress="inNumber2()" id="inputEther" name="ether"> <input type="button"
+                                                                                                     value="환산액보기"
+                                                                                                     onclick="exchangeEtherTest()">
+                    👉🏿 <span id="resultether"></span></td>
+            </tr>
+            <tr>
+                <td>Private Key :</td>
+                <td><input type="text" onkeypress="inNumber()" id="inputPK" name="privateKey"></td>
+            </tr>
+            <tr>
+                <td><input type="submit" value="환전하기" onclick="exchangeEther()"></td>
+            </tr>
+        </table>
+    </div>
+</div>
+</body>
+</html>

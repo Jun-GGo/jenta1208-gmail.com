@@ -1,0 +1,70 @@
+<html>
+<head>
+    <title>회원가입</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+</head>
+<body>
+<h1>회원가입</h1>
+<form action="/signup_success" method="post" class="signupform">
+
+    <table>
+        <tr>
+            <td>이름 : </td>
+            <td><input type="text" name="name"></td>
+        </tr>
+        <tr>
+            <td>아이디 : </td>
+            <td><input type="text" name="login_id" id="login_id"></td>
+            <td><button type="button" onclick="checkOverlap()">중복검사</button></td>
+        </tr>
+        <tr>
+            <td>비번 : </td>
+            <td><input type="text" name="password"></td>
+        </tr>
+        <tr>
+            <td>생년월일 : </td>
+            <td><input placeholder="19901010"     type="text" name="birth_date"></td>
+        </tr>
+        <tr>
+            <td>전화번호 : </td>
+            <td><input type="text" name="phone_number"></td>
+        </tr>
+        <tr>
+            <td>이메일 : </td>
+            <td><input type="text" name="email"></td>
+        </tr>
+        <tr>
+            <td>계좌 : </td>
+            <td><input type="text" name="address"></td>
+        </tr>
+        <tr>
+            <td><input type="submit" value="가입하기" ></td>
+        </tr>
+    </table>
+</form>
+<script>
+    function checkOverlap() {
+        let login_id=document.getElementById('login_id');
+        $.ajax({
+            url: "/checkoverlap", // 클라이언트가 HTTP 요청을 보낼 서버의 URL 주소
+            data: {login_id: login_id.value}, // HTTP 요청과 함께 서버로 보낼 데이터
+            method: "GET", // HTTP 요청 메소드(GET, POST 등)
+            // dataType: "json" // 서버에서 보내줄 데이터의 타입 })
+        })
+            .done(function (results) {
+                if(results === '0')
+                    alert('사용가능한 아이디입니다!');
+                else
+                    alert('이미 존재하는 아이디입니다!');
+
+            })
+    }
+    function checksignup(){
+
+    }
+</script>
+
+</body>
+</html>
